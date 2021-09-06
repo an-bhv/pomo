@@ -12,21 +12,11 @@ class Item(models.Model):
         return self.title
 
 
-
-
-class User(AbstractUser):
-    email = models.EmailField(
-        verbose_name='email address',
-        max_length=255,
-        unique=True,
-    )
-
+class Myuser(models.Model):
+    email = models.EmailField(unique=True)
     item = models.ManyToManyField(Item)
+    
+    
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] # Email & Password are required by default.
-
-
-
-
-
+    def __str__(self):
+        return self.email

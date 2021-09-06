@@ -1,5 +1,5 @@
 from django.shortcuts import  render, redirect
-from .forms import NewUserForm
+from .forms import NewUserForm,MainForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
@@ -12,13 +12,32 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-import getit
-
+from . import getit
+from .models import Item,Myuser
 
 # Create your views here.
 
 def homepage(request):
-    return render(request=request, template_name='main/homepage.html')
+	if request.method=="POST":
+		form = MainForm(request.POST)
+		if form.is_valid():
+			user_email = request.user.email
+
+			title = form.cleaned_data.get('title')
+			year = form.cleaned_data.get('year')
+
+			obj = Myuser(title=title,year=year,user_email=user_email)
+			obj.save()
+			
+
+			return redirect("main:homepage")
+
+
+
+	else: form = Myuser()
+	
+	
+	return render(request=request, template_name='main/homepage.html',context={'form':form})
 
 def register_request(request):
 	if request.method == "POST":
