@@ -8,7 +8,5 @@ def fetch(title,year):
 
     r = requests.get(url=url)
 
-    print(r.json()['Year'])
-
-
-fetch('friends','')
+    return(r.json()['Genre'])
+    

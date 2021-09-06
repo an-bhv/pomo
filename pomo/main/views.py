@@ -25,16 +25,20 @@ def homepage(request):
 
 			title = form.cleaned_data.get('title')
 			year = form.cleaned_data.get('year')
+			genre = getit.fetch(title,year)
+			it = Item(title=title,year=year,genre=genre)
+			it.save()
 
-			obj = Myuser(title=title,year=year,user_email=user_email)
-			obj.save()
-			
+			us = Myuser(email=user_email)
+			us.save()
+			us.item.add(it)
+				
 
 			return redirect("main:homepage")
 
 
 
-	else: form = Myuser()
+	form = MainForm()
 	
 	
 	return render(request=request, template_name='main/homepage.html',context={'form':form})
