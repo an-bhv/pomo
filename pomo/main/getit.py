@@ -1,6 +1,8 @@
 import requests
 import json
 
+from requests.models import default_hooks
+
 
 
 def fetch(title,year):
@@ -8,5 +10,20 @@ def fetch(title,year):
 
     r = requests.get(url=url)
 
-    return(r.json()['Genre'])
+    d = {
+            'genre':r.json()['Genre'], 
+            'year':r.json()['Year'],
+            'released':r.json()['Released'],
+            'runtime':r.json()['Runtime'],
+            'cast':r.json()['Actors'],
+            'plot':r.json()['Plot'],
+            'country':r.json()['Country'],
+            'poster_link':r.json()['Poster'],
+            'metascore':r.json()['Metascore'],
+            'imdbRating':r.json()['imdbRating'],
+
+
+        }
+
+    return(d)
     

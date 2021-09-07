@@ -25,12 +25,15 @@ def homepage(request):
 
 			title = form.cleaned_data.get('title')
 			year = form.cleaned_data.get('year')
-			genre = getit.fetch(title,year)
-			it = Item(title=title,year=year,genre=genre)
+			d = getit.fetch(title,year)
+			it = Item(title=title,year=d['year'],genre=d['genre'],runtime = d['runtime'],released = d['released'],cast = d['cast'],plot = d['plot'], country = d['country'], poster_link = d['poster_link'], metascore = d['metascore'],imdbRating=d['imdbRating']) 
+        
 			it.save()
-
-			us = Myuser(email=user_email)
-			us.save()
+			if(Myuser.objects.filter(email__exact=user_email).exists()):			
+				us = Myuser.objects.filter(email__exact=user_email)[0]
+			else:
+				us = Myuser(email=user_email)
+				us.save()
 			us.item.add(it)
 				
 
