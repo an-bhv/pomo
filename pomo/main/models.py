@@ -22,6 +22,13 @@ class Item(models.Model):
         return self.title
 
 
+
+
+
+
+
+
+
 class Myuser(models.Model):
     email = models.EmailField(unique=True)
     item = models.ManyToManyField(Item)

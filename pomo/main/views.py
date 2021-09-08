@@ -41,10 +41,17 @@ def homepage(request):
 
 
 
+
+
+
+
 	form = MainForm()
 	
+
+	its = Item.objects.all()
+
 	
-	return render(request=request, template_name='main/homepage.html',context={'form':form})
+	return render(request=request, template_name='main/homepage.html',context={'form':form,'items':its})
 
 def register_request(request):
 	if request.method == "POST":
