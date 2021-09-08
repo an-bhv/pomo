@@ -22,3 +22,8 @@ class NewUserForm(UserCreationForm):
 class MainForm(forms.Form):
 	title = forms.CharField(label='title',max_length=50,required=True)
 	year = forms.CharField(label='year',max_length=20,required=False)
+	watched = forms.BooleanField(label='have you watched it')
+
+
+class SearchForm(forms.Form):
+	tit = forms.CharField(label='title',max_length=50,required=True)

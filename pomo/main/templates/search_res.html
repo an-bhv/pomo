@@ -1,0 +1,24 @@
+
+{% extends 'main/base.html' %}
+
+{% block title %} Search {% endblock %}
+
+{% block body %}
+{%for t,y,p,ty,im in lis %}
+    <div class="container" style="background-color: burlywood;">
+        <h2>{{t}}</h2>
+    <form action="{% url 'main:search_res' %}" method="POST">
+
+    {% csrf_token %}
+
+    <input type="hidden" name="imdb_id" value="{{im}}">
+
+    <button class="btn btn-primary" type="submit">Add</button>
+
+  </form>
+
+    </div>
+
+{% endfor %}
+
+{% endblock %}

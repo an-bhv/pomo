@@ -5,27 +5,67 @@
 {% block body %}
 
 {% load crispy_forms_tags %}
-<div class="container py-5">
-  <form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button class="btn btn-primary" type="submit">Add</button>
-  </form>
-</div>
+<form method="GET" class="d-flex" action="{% url 'main:search_res' %}">
+  {% csrf_token %}
+
+
+      {{form|crispy}}
+
+  <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
+
+
+
+
+<form class="d-flex">
+  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+  <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+
+
+
+
+
+
+
+
+
+
 
 <div class="container-fluid behindform">
   <h1>Search</h1>
 </div>
 
-<ul>
 {%for i in items %}
 
-<li>{{ i.title}} </li>
+<div class="container list" style="background-color: blanchedalmond;">
+  <img src="{{i.poster_link}}" class="rounded float-start img-responsive" alt="{{i.title}}" width="10%" height="20%">
+  <h2>{{i.title}}</h2>
+  <p>{{i.plot}}</p>
+
+  <form action="{% url 'main:like_post' %}" method="POST">
+
+    {% csrf_token %}
+
+    <input type="hidden" name="item_id" value="{{i.id}}">
+    {% if user not in i.liked.all%}
+
+    <button class="ui button positive" type="submit">Like</button>
+
+    {% else %}
+
+
+    <button class="ui button negetive" type="submit">Unlike</button>
+
+    {% endif %}
+
+  </form>
+  <strong>{{i.liked.all.count }} likes</strong>
+</div>
 
 {% endfor %}
-</ul>
 
 
 
 {% endblock %}
-

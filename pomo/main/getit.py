@@ -5,12 +5,13 @@ from requests.models import default_hooks
 
 
 
-def fetch(title,year):
-    url = f'http://www.omdbapi.com/?t={title}&y={year}&apikey=934ea8b2'
+def fetch(id):
+    url = f'http://www.omdbapi.com/?i={id}&apikey=934ea8b2'
 
     r = requests.get(url=url)
 
     d = {
+            'title':r.json()['Title'],
             'genre':r.json()['Genre'], 
             'year':r.json()['Year'],
             'released':r.json()['Released'],
@@ -21,7 +22,7 @@ def fetch(title,year):
             'poster_link':r.json()['Poster'],
             'metascore':r.json()['Metascore'],
             'imdbRating':r.json()['imdbRating'],
-
+            'type':r.json()['Type'],
 
         }
 
