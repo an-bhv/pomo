@@ -12,5 +12,6 @@ urlpatterns = [
     path("password_reset", views.password_reset_request, name="password_reset"),
     path("like/",views.like_post,name='like_post'),
     path("search/",views.search_res,name='search_res'),
+    path("profile/",views.profile,name='profile'),
 
 ]

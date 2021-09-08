@@ -174,12 +174,6 @@ def search_res(request):
 
 		return redirect("main:homepage")
 
-
-
-
-			
-	
-	
 	else:
 		
 		title = request.GET.get('tit')
@@ -194,9 +188,16 @@ def search_res(request):
 		
 		d['lis'] = lis            
 
-		return render(request,template_name="search_res.html",context=d)
+		return render(request,template_name="main/search_res.html",context=d)
 		
 	
+
+def profile(request):
+	user_email = request.user.email
+	user = Myuser.objects.get(email=user_email)
+	items = user.item.all()
+
+	return render(request,template_name='main/profile.html',context={'items':items})
 
 
 
