@@ -23,6 +23,7 @@ def fetch(id):
             'metascore':r.json()['Metascore'],
             'imdbRating':r.json()['imdbRating'],
             'type':r.json()['Type'],
+            'imdb_id':r.json()['imdbID'],
 
         }
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.lookups import IRegex
 from django.forms.models import ModelForm
 
 
@@ -18,7 +19,7 @@ class Item(models.Model):
     metascore = models.CharField(max_length=100,null=True)
     imdbRating = models.CharField(max_length=100,null=True)
     type = models.CharField(max_length=20,null=True)
-    watched = models.BooleanField(null=True)
+    imdb_id = models.CharField(max_length=100,null=True)
 
     liked = models.ManyToManyField(User, default=None, blank=True,related_name='liked')
 
@@ -30,6 +31,8 @@ class Item(models.Model):
     @property
     def num_likes(self):
         return self.liked.all().count()
+
+
 
 
 
@@ -59,6 +62,8 @@ class Myuser(models.Model):
     email = models.EmailField(unique=True)
     item = models.ManyToManyField(Item)
     username= models.CharField(max_length=100,null=True)
+
+    watched = models.ManyToManyField(Item,related_name='watched')
     
     
 

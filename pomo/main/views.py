@@ -1,3 +1,4 @@
+from django.db.models.aggregates import Count
 from django.shortcuts import  render, redirect
 from requests.api import post
 from .forms import NewUserForm,MainForm,SearchForm
@@ -18,6 +19,7 @@ from .models import Item,Myuser,Like
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -42,7 +44,7 @@ def homepage(request):
 	form = SearchForm()
 	
 
-	its = Item.objects.all()
+	its = Item.objects.annotate(cnt = Count('liked')).order_by('-cnt') 
 	user = request.user
 
 
@@ -122,7 +124,7 @@ def password_reset_request(request):
 
 
 
-
+@login_required
 def like_post(request):
 	user = request.user
 
@@ -160,14 +162,23 @@ def search_res(request):
 		imdb_id = request.POST.get('imdb_id')
 		
 		d = getit.fetch(imdb_id)
-		it = Item(title=d['title'],year=d['year'],genre=d['genre'],runtime = d['runtime'],released = d['released'],cast = d['cast'],plot = d['plot'], country = d['country'], poster_link = d['poster_link'], metascore = d['metascore'],imdbRating=d['imdbRating'],type=d['type']) 
-	
-		it.save()
+		it = Item
+		if Item.objects.filter(imdb_id=imdb_id).exists():
+			it = Item.objects.filter(imdb_id=imdb_id)[0]
+		else:
+			it = Item(title=d['title'],year=d['year'],genre=d['genre'],runtime = d['runtime'],released = d['released'],cast = d['cast'],plot = d['plot'], country = d['country'], poster_link = d['poster_link'], metascore = d['metascore'],imdbRating=d['imdbRating'],type=d['type'],imdb_id=d['imdb_id']) 
+			it.save()
+
+
 		if(Myuser.objects.filter(email__exact=user_email).exists()):			
 			us = Myuser.objects.filter(email__exact=user_email)[0]
 		else:
-			us = Myuser(email=user_email)
+			us = Myuser(email=user_email,username = request.user.username)
 			us.save()
+
+	
+
+		
 		us.item.add(it)
 
 
@@ -191,13 +202,36 @@ def search_res(request):
 		return render(request,template_name="main/search_res.html",context=d)
 		
 	
-
+@login_required
 def profile(request):
+
 	user_email = request.user.email
 	user = Myuser.objects.get(email=user_email)
-	items = user.item.all()
+	not_watched = user.item.all()
+	watched = user.watched.all()
+	
+	if request.method=='POST':
+		
+		for i in not_watched:
 
-	return render(request,template_name='main/profile.html',context={'items':items})
+			b = request.POST.get(str(i.id))
+
+			if b=='True':
+				user.item.remove(i)
+				user.watched.add(i)
+				user.save()
+
+
+		return redirect('main:profile')
+
+
+
+
+
+			
+	
+	
+	return render(request,template_name='main/profile.html',context={'not_watched':not_watched,'watched':watched,})
 
 
 
