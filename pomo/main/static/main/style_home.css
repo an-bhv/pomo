@@ -1,0 +1,46 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Atma:wght@700&display=swap');
+
+
+.navbar-collapse{
+    justify-content: flex-end;
+}
+
+.list{
+    background-color: rgb(42, 37, 36);
+}
+
+
+.boddy{
+    background-color: #c02942;
+}
+
+.hero{
+    background: #c02942 url('bg2.jpg');
+    background-repeat: no-repeat;
+    color: #fed9b5;
+    text-align: center;
+    padding: 4em;
+    padding-bottom: 10em;
+}
+
+#logo{
+    font-family: 'Atma', cursive;
+}
+
+
+.frm{
+    background-color:rgb(42, 37, 36,0.9);
+
+}
+
+
+
+@media (min-width: 930px){
+
+    #logo{
+        font-size: 10rem;
+        
+    }
+
+}

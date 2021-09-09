@@ -155,10 +155,12 @@ def like_post(request):
 
 
 
+@login_required
 def search_res(request):
 	user_email = request.user.email
 
 	if request.method=='POST':
+		print("JOJOJOJOJOJOJOJOJ")	
 		imdb_id = request.POST.get('imdb_id')
 		
 		d = getit.fetch(imdb_id)
@@ -178,7 +180,6 @@ def search_res(request):
 
 	
 
-		
 		us.item.add(it)
 
 

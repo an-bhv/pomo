@@ -1,45 +1,45 @@
+<div class="boddy">
 {% extends "main/base.html" %}
 
 {% block title %} Homepage {% endblock %}
 
+  {% block links %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'main/style_home.css' %}">
+  {% endblock %}
 {% block body %}
+<div class="hero">
+  {% load crispy_forms_tags %}
+  <div class="container">
+    <div class="row">
 
-{% load crispy_forms_tags %}
-<form method="GET" class="d-flex" action="{% url 'main:search_res' %}">
-  {% csrf_token %}
+      <div class="col-lg-4"></div>
+      <div class="col-lg-8">
+      <div class="row frm row-cols-1 me-lg--10">  
+      <h1 id='logo' >PoMo</h1>
+      <form method="GET" action="{% url 'main:search_res' %}">
+        {% csrf_token %}
+        <span>
+          <div class="container-fluid search-wrap col-lg-8">
+            {{form}}
 
-
-      {{form|crispy}}
-
-  <button class="btn btn-outline-success" type="submit">Search</button>
-</form>
-
-
-
-
-
-<form class="d-flex">
-  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-  <button class="btn btn-outline-success" type="submit">Search</button>
-</form>
-
-
-
-
-
-
-
-
-
-
-
-<div class="container-fluid behindform">
-  <h1>Search</h1>
+            <button class="btn btn-success col-lg-4 m-2" type="submit" name="srch"><span id='srch'>Search</span>
+            </button>
+          </div>
+        </span>
+      </form>
+    </div>
+    </div>
+    </div>
+  </div>
 </div>
 
+<div class="container ">
+  <div class="row row-cols-1">
 {%for i in items %}
 
-<div class="container list" style="background-color: blanchedalmond;">
+<div class="col p-lg-4 h-100" style="background-color: blanchedalmond;">
   <img src="{{i.poster_link}}" class="rounded float-start img-responsive" alt="{{i.title}}" width="10%" height="20%">
   <h2>{{i.title}}</h2>
   <p>{{i.plot}}</p>
@@ -51,21 +51,35 @@
     <input type="hidden" name="item_id" value="{{i.id}}">
     {% if user not in i.liked.all%}
 
-    <button class="ui button positive" type="submit">Like</button>
+    <button class="btn btn-primary p-lg-2" type="submit">Like</button>
 
     {% else %}
 
 
-    <button class="ui button negetive" type="submit">Unlike</button>
+    <button class="btn btn-danger p-lg-2" type="submit">Unlike</button>
 
     {% endif %}
+  </form>
+
+    <form action="{% url 'main:search_res' %}" method="POST">
+
+    {% csrf_token %}
+
+    <input type="hidden" name="imdb_id" value="{{i.imdb_id}}">
+
+    <button class="btn btn-primary" type="submit">Add</button>
 
   </form>
+
+
   <strong>{{i.liked.all.count }} likes</strong>
 </div>
 
+
 {% endfor %}
-
-
+</div>
+</div>
 
 {% endblock %}
+
+</div>
