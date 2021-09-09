@@ -35,16 +35,33 @@
   </div>
 </div>
 
-<div class="container ">
-  <div class="row row-cols-1">
-{%for i in items %}
 
-<div class="col p-lg-4 h-100" style="background-color: blanchedalmond;">
-  <img src="{{i.poster_link}}" class="rounded float-start img-responsive" alt="{{i.title}}" width="10%" height="20%">
-  <h2>{{i.title}}</h2>
-  <p>{{i.plot}}</p>
 
-  <form action="{% url 'main:like_post' %}" method="POST">
+
+
+{% for i in items %}
+<div class="container">
+<div class="card mb-3" >
+
+
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{i.poster_link}}" class="img-fluid rounded-start poster" alt="{{i.title}}">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h1 class="card-title"><a id='title_link'href="https://www.imdb.com/title/{{i.imdb_id}}/">{{i.title}}</a> </h1> <span class="subtle start-year">{{i.year}}</span>
+        <h5>Genere</h2><p class="card-text">{{i.genre}}</p>
+        <h5>Cast</h2><p class="card-text">{{i.cast}}</p>
+        <h5>Plot</h2><p class="card-text">{{i.plot}}</p>
+        <h5>Imdb Rating</h2><p class="card-text">{{i.imdbRating}}</p>
+        <h5>Metascore</h2><p class="card-text">{{i.metascore}}</p>
+        <p class="card-text"><small class="text-muted">{{i.runtime}}</small></p>
+
+
+        <div class="row">
+        <div class="col">
+           <form action="{% url 'main:like_post' %}" method="POST">
 
     {% csrf_token %}
 
@@ -61,7 +78,11 @@
     {% endif %}
   </form>
 
-    <form action="{% url 'main:search_res' %}" method="POST">
+  <strong>{{i.liked.all.count }} likes</strong>
+</div>
+
+      <div class="col">
+        <form action="{% url 'main:search_res' %}" method="POST">
 
     {% csrf_token %}
 
@@ -70,15 +91,22 @@
     <button class="btn btn-primary" type="submit">Add</button>
 
   </form>
+      </div>
 
 
-  <strong>{{i.liked.all.count }} likes</strong>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 </div>
-
-
+</div>
 {% endfor %}
-</div>
-</div>
+
+
+
+
+
 
 {% endblock %}
 

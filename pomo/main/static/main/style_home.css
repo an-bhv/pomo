@@ -34,8 +34,24 @@
 
 }
 
+#item_title{
+    font-size: 2.5rem;
+    text-align: center;
+}
 
+.card{
+background-color: rgba(26, 24, 22, 0.705); 
+color: white;
 
+}
+
+#title_link{
+    color: white;
+    text-decoration: none;
+}
+.poster{
+    padding: 1em;
+}
 @media (min-width: 930px){
 
     #logo{

@@ -160,7 +160,6 @@ def search_res(request):
 	user_email = request.user.email
 
 	if request.method=='POST':
-		print("JOJOJOJOJOJOJOJOJ")	
 		imdb_id = request.POST.get('imdb_id')
 		
 		d = getit.fetch(imdb_id)
