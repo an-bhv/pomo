@@ -298,7 +298,7 @@ def profile(request):
 
 
 @login_required
-def post_detail(request):
+def comments(request):
 	it_id = request.GET.get('it_id')
 	post = get_object_or_404(Item, id=it_id)
 	comments = post.comments.all()

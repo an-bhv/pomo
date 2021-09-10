@@ -15,7 +15,7 @@ urlpatterns = [
     path("profile/",views.profile,name='profile'),
     path("delw/",views.delw,name='delw'),
     path("deln/",views.deln,name='deln'),
-    path('comments/', views.post_detail, name='post_detail')
+    path('comments/', views.comments, name='comments')
 
 
 ]
