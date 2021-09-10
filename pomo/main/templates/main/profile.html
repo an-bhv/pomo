@@ -1,8 +1,90 @@
 {% extends 'main/base.html' %}
+{% block title %} {{user.username}} {% endblock %}
 
+  {% block links %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'main/style_search.css' %}">
+  {% endblock %}
 {% block body %}
 
-<h1>{{user.username}}</h1>
+
+
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col">
+
+           
+ <h1>Not Watched</h1>
+    {% for i in not_watched %}
+     <div class="card d-flex justify-content-center" >
+        <img src="{{i.poster_link}}" class="card-img-top" alt="{{i.title}}"style="width: 18rem;">
+
+        <div class="card-body">
+        <h5 class="card-title">{{i.title}}</h5>
+        <p class="card-text">{{i.plot}}</p>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="{{i.id}}" value="True"> 
+    <button class="btn btn-primary" type="submit">Watched</button>
+        </form>
+      </div>
+</div>
+            
+
+    {% endfor %}
+
+        </div>
+
+
+
+
+ <div class="col">
+
+           
+ <h1>Watched</h1>
+    {% for i in watched %}
+   
+              <div class="card d-flex justify-content-center" >
+        <img src="{{i.poster_link}}" class="card-img-top" alt="{{i.title}}"style="width: 18rem;">
+
+        <div class="card-body">
+        <h5 class="card-title">{{i.title}}</h5>
+        <p class="card-text">{{i.plot}}</p>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="{{i.id}}" value="False"> 
+    <button class="btn btn-primary" type="submit">Not Watched</button>
+        </form>
+      </div>
+</div>
+      
+
+    {% endfor %}
+
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 <ul>
     <h1>Not Watched</h1>

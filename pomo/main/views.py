@@ -155,6 +155,14 @@ def like_post(request):
 
 
 
+
+
+
+
+
+
+
+
 @login_required
 def search_res(request):
 	user_email = request.user.email
@@ -211,16 +219,30 @@ def profile(request):
 	watched = user.watched.all()
 	
 	if request.method=='POST':
-		
+
+
 		for i in not_watched:
 
 			b = request.POST.get(str(i.id))
-
+			print("--------------------")
+			print(b)
+			print("********************")
 			if b=='True':
 				user.item.remove(i)
 				user.watched.add(i)
 				user.save()
 
+
+		for j in watched:
+			b = request.POST.get(str(j.id))
+			print("--------------------")
+			print(b)
+			print("********************")
+
+			if b=='False':
+				user.watched.remove(j)
+				user.item.add(j)
+				user.save()
 
 		return redirect('main:profile')
 

@@ -1,0 +1,19 @@
+.col{
+
+background-color: rgba(12, 11, 10, 0.705); 
+color: white;
+margin: 1em;
+text-align: center;
+}
+.card{
+    color: rgb(255, 255, 255);
+background-color: rgba(26, 24, 22, 0.705); 
+    margin-bottom: 1em;
+    width: inherit;
+}
+.card-img-top{
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
