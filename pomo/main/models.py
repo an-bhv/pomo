@@ -61,14 +61,14 @@ class Like(models.Model):
 class Myuser(models.Model):
     email = models.EmailField(unique=True)
     item = models.ManyToManyField(Item)
-    username= models.CharField(max_length=100,null=True)
+    username= models.CharField(max_length=100,unique=True)
 
     watched = models.ManyToManyField(Item,related_name='watched')
     
     
 
     def __str__(self):
-        return self.email
+        return self.username
 
 
 

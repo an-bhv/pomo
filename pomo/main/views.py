@@ -55,10 +55,25 @@ def register_request(request):
 	if request.method == "POST":
 		form = NewUserForm(request.POST)
 		if form.is_valid():
-			user = form.save()
-			login(request, user)
-			messages.success(request, "Registration successful." )
-			return redirect("main:homepage")
+
+
+			username = form.cleaned_data.get('username')
+			email = form.cleaned_data.get('email')
+
+			if(Myuser.objects.filter(email=email).exists()):	
+				messages.error(request, "Email already exists.")
+
+
+			else:
+				us = Myuser(email=email,username = username)
+				us.save()
+			
+
+				user = form.save()
+
+				login(request, user)
+				messages.success(request, "Registration successful." )
+				return redirect("main:homepage")
 		messages.error(request, "Unsuccessful registration. Invalid information.")
 	form = NewUserForm()
 	return render (request=request, template_name="main/register.html", context={"register_form":form})
@@ -158,7 +173,7 @@ def like_post(request):
 
 @login_required
 def delw(request):
-	user = Myuser.objects.filter(email=request.user.email)[0]
+	user = Myuser.objects.filter(username = request.user.username)[0]
 	if request.method=='POST':
 		b = request.POST.get('delw')
 
@@ -175,7 +190,7 @@ def delw(request):
 
 @login_required
 def deln(request):
-	user = Myuser.objects.filter(email=request.user.email)[0]
+	user = Myuser.objects.filter(username = request.user.username)[0]
 	if request.method=='POST':
 		b = request.POST.get('deln')
 
@@ -195,7 +210,7 @@ def deln(request):
 
 @login_required
 def search_res(request):
-	user_email = request.user.email
+	usern = request.user.username
 
 	if request.method=='POST':
 		imdb_id = request.POST.get('imdb_id')
@@ -209,10 +224,10 @@ def search_res(request):
 			it.save()
 
 
-		if(Myuser.objects.filter(email__exact=user_email).exists()):			
-			us = Myuser.objects.filter(email__exact=user_email)[0]
+		if(Myuser.objects.filter(username = usern ).exists()):			
+			us = Myuser.objects.filter(username=usern)[0]
 		else:
-			us = Myuser(email=user_email,username = request.user.username)
+			us = Myuser(email=request.user.email,username = usern)
 			us.save()
 
 	
@@ -243,8 +258,8 @@ def search_res(request):
 @login_required
 def profile(request):
 
-	user_email = request.user.email
-	user = Myuser.objects.get(email=user_email)
+	username = request.user.username
+	user = Myuser.objects.get(username=username)
 	not_watched = user.item.all()
 	watched = user.watched.all()
 	
@@ -280,6 +295,9 @@ def profile(request):
 	return render(request,template_name='main/profile.html',context={'not_watched':not_watched,'watched':watched,})
 
 
+
+
+@login_required
 def post_detail(request):
 	it_id = request.GET.get('it_id')
 	post = get_object_or_404(Item, id=it_id)
@@ -295,7 +313,10 @@ def post_detail(request):
 			itt_id = request.POST.get('itt_id')
 			post = get_object_or_404(Item,id=itt_id)
 			new_comment.post = post
+			new_comment.email = request.user.email
+			new_comment.name = request.user.username
 			new_comment.save()
+			
 		
 	else:
 		comment_form = CommentForm()

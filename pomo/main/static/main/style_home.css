@@ -8,12 +8,11 @@
 
 
 .boddy{
-    background-color: #c02942;
+    background: #c02942 url('bg2.jpg');
+    background-repeat: no-repeat;
 }
 
 .hero{
-    background: #c02942 url('bg2.jpg');
-    background-repeat: no-repeat;
     color: #fed9b5;
     text-align: center;
     padding: 4em;
@@ -36,7 +35,7 @@
 }
 
 .card{
-background-color: rgba(26, 24, 22, 0.705); 
+background-color: rgba(26, 24, 22, 0.9); 
 color: white;
 
 }
