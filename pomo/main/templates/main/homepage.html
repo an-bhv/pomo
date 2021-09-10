@@ -2,129 +2,142 @@
 
 {% block title %} Homepage {% endblock %}
 
-  {% block links %}
+{% block links %}
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'main/style_home.css' %}">
-  {% endblock %}
+{% endblock %}
 {% block body %}
 <div class="boddy">
-<div class="hero">
-  {% load crispy_forms_tags %}
+  <div class="hero">
+    {% load crispy_forms_tags %}
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-lg-4"></div>
+        <div class="col-lg-8">
+          <div class="row-cols-1 frm">
+            <div class="col">
+              <h1 id='logo'>PoMo</h1>
+            </div>
+            <div class="col">
+            <div class="wrap">
+              <form method="GET" action="{% url 'main:search_res' %}">
+
+                <div class="search">
+
+                  {% csrf_token %}
+
+                  {{form}}
+
+
+                  <button class="searchButton" type="submit"><i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+            </div>
+         
+    </div>
+  </div>
+
+
+
+
+
+  {% for i in items %}
   <div class="container">
-    <div class="row">
-
-      <div class="col-lg-4"></div>
-      <div class="col-lg-8">
-      <div class="row frm row-cols-1 me-lg--10">  
-      <h1 id='logo' >PoMo</h1>
-      <form method="GET" action="{% url 'main:search_res' %}">
-        {% csrf_token %}
-        <span>
-          <div class="container-fluid search-wrap col-lg-8">
-            {{form}}
-
-            <button class="btn btn-success col-lg-4 m-2" type="submit" name="srch"><span id='srch'>Search</span>
-            </button>
-          </div>
-        </span>
-      </form>
-    </div>
-    </div>
-    </div>
-  </div>
-</div>
+    <div class="card mb-3">
 
 
-
-
-
-{% for i in items %}
-<div class="container">
-<div class="card mb-3" >
-
-
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="{{i.poster_link}}" class="img-fluid rounded-start poster" alt="{{i.title}}">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h1 class="card-title"><a id='title_link'href="https://www.imdb.com/title/{{i.imdb_id}}/">{{i.title}}</a> </h1> <span class="subtle start-year">{{i.year}}</span>
-        <h5>Genere</h2><p class="card-text">{{i.genre}}</p>
-        <h5>Cast</h2><p class="card-text">{{i.cast}}</p>
-        <h5>Plot</h2><p class="card-text">{{i.plot}}</p>
-        <h5>Imdb Rating</h2><p class="card-text">{{i.imdbRating}}</p>
-        <h5>Metascore</h2><p class="card-text">{{i.metascore}}</p>
-        <p class="card-text"><small class="text-muted">{{i.runtime}}</small></p>
-
-
-        <div class="row">
-        <div class="col">
-           <form action="{% url 'main:like_post' %}" method="POST">
-
-    {% csrf_token %}
-
-    <input type="hidden" name="item_id" value="{{i.id}}">
-    {% if user not in i.liked.all%}
-
-    <button class="btn btn-primary p-lg-2" type="submit">Like</button>
-
-    {% else %}
-
-
-    <button class="btn btn-danger p-lg-2" type="submit">Unlike</button>
-
-    {% endif %}
-  </form>
-
-  <strong>{{i.liked.all.count }} likes</strong>
-</div>
-
-
-
-  <div class="col">
-        <form action="{% url 'main:post_detail' %}" method="GET">
-
-    {% csrf_token %}
-
-    <input type="hidden" name="it_id" value="{{i.id}}">
-
-    <button class="btn btn-primary" type="submit">Comments</button>
-
-  </form>
-      </div>
-
-
-
-
-      <div class="col">
-        <form action="{% url 'main:search_res' %}" method="POST">
-
-    {% csrf_token %}
-
-    <input type="hidden" name="imdb_id" value="{{i.imdb_id}}">
-
-    <button class="btn btn-primary" type="submit">Add</button>
-
-  </form>
-      </div>
-
-
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="{{i.poster_link}}" class="img-fluid rounded-start poster" alt="{{i.title}}">
         </div>
-        
+        <div class="col-md-8">
+          <div class="card-body">
+            <h1 class="card-title"><a id='title_link' href="https://www.imdb.com/title/{{i.imdb_id}}/">{{i.title}}</a>
+            </h1> <span class="subtle start-year">{{i.year}}</span>
+            <h5>Genere</h2>
+              <p class="card-text">{{i.genre}}</p>
+              <h5>Cast</h2>
+                <p class="card-text">{{i.cast}}</p>
+                <h5>Plot</h2>
+                  <p class="card-text">{{i.plot}}</p>
+                  <h5>Imdb Rating</h2>
+                    <p class="card-text">{{i.imdbRating}}</p>
+                    <h5>Metascore</h2>
+                      <p class="card-text">{{i.metascore}}</p>
+                      <p class="card-text"><small class="text-muted">{{i.runtime}}</small></p>
+
+
+                      <div class="row">
+                        <div class="col">
+                          <form action="{% url 'main:like_post' %}" method="POST">
+
+                            {% csrf_token %}
+
+                            <input type="hidden" name="item_id" value="{{i.id}}">
+                            {% if user not in i.liked.all%}
+
+                            <button class="btn btn-primary p-lg-2" type="submit"><i class="fa fa-heart" aria-hidden="true"></i></button>
+
+                            {% else %}
+
+
+                            <button class="btn btn-danger p-lg-2" type="submit"><i class="fa fa-heart-o" aria-hidden="true"></i>
+</button>
+
+                            {% endif %}
+                          </form>
+
+                          <strong>{{i.liked.all.count }} likes</strong>
+                        </div>
+
+
+
+                        <div class="col">
+                          <form action="{% url 'main:post_detail' %}" method="GET">
+
+                            {% csrf_token %}
+
+                            <input type="hidden" name="it_id" value="{{i.id}}">
+
+                            <button class="btn btn-primary" type="submit">Comments</button>
+
+                          </form>
+                        </div>
+
+
+
+
+                        <div class="col">
+                          <form action="{% url 'main:search_res' %}" method="POST">
+
+                            {% csrf_token %}
+
+                            <input type="hidden" name="imdb_id" value="{{i.imdb_id}}">
+
+                            <button class="btn btn-primary" type="submit">Add</button>
+
+                          </form>
+                        </div>
+
+
+                      </div>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-</div>
-{% endfor %}
+  {% endfor %}
 
 
 
 
 
 
-{% endblock %}
+  {% endblock %}
 
 </div>

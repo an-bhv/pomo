@@ -59,7 +59,7 @@ class Like(models.Model):
 
 
 class Myuser(models.Model):
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     item = models.ManyToManyField(Item)
     username= models.CharField(max_length=100,unique=True)
 

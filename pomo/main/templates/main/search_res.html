@@ -11,22 +11,17 @@
 
 
 
-
+<div class="row row-cols-auto">
 
 {% for t,y,p,ty,im in lis %}
 
-<div class="container">
+<div class="container m-3 ms-5">
 
-  <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="{{p}}" class="img-fluid rounded-start poster" alt="{{t}}">
-      </div>
-      <div class="col-md-8">
+  <div class="card md-3" style="width: 20rem;">
+        <img src="{{p}}" class="card-img-top poster" alt="{{t}}">
         <div class="card-body">
         <h1 class="card-title"><a id='title_link'href="https://www.imdb.com/title/{{im}}/">{{t}}</a> </h1> <span class="subtle start-year">{{y}}</span>
           <p class="card-text"><small class="text-muted">{{ty}}</small></p>
-
           <form action="{% url 'main:search_res' %}" method="POST">
 
             {% csrf_token %}
@@ -39,8 +34,6 @@
 
 
         </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -48,7 +41,7 @@
 {% endfor %}
 
 
-
+</div>
 
 
 
