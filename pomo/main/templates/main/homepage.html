@@ -81,6 +81,23 @@
   <strong>{{i.liked.all.count }} likes</strong>
 </div>
 
+
+
+  <div class="col">
+        <form action="{% url 'main:post_detail' %}" method="GET">
+
+    {% csrf_token %}
+
+    <input type="hidden" name="it_id" value="{{i.id}}">
+
+    <button class="btn btn-primary" type="submit">Comments</button>
+
+  </form>
+      </div>
+
+
+
+
       <div class="col">
         <form action="{% url 'main:search_res' %}" method="POST">
 

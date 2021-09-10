@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+from .models import Comment
 
 class NewUserForm(UserCreationForm):
     
@@ -26,3 +26,9 @@ class MainForm(forms.Form):
 
 class SearchForm(forms.Form):
 	tit = forms.CharField(label='',max_length=50,required=True,widget=forms.TextInput(attrs={'placeholder': 'Search'}))
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('name', 'email', 'body')

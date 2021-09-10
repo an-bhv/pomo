@@ -1,19 +1,26 @@
 
 
 {% extends "main/base.html" %}
+{% block title %} Login {% endblock %}
 
+  {% block links %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'main/style_login.css' %}">
+  {% endblock %}
 {% block body %}      
 
 
 {% load crispy_forms_tags %}
-<div class="container py-5">
+<div class="container py-lg-5 py-2 mt-1 text-center">
   <h1>Login</h1>
   <form method="POST">
     {% csrf_token %}
     {{ login_form|crispy }}
-    <button class="btn btn-primary" type="submit">Login</button>
+    <button class="btn btn-primary my-lg-5 my-3" type="submit">Login</button>
   </form>
   <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
+  <p class="text-center">Forgot password?<a href="/password_reset">reset password</a>.</p>
 </div>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 from django.db.models.aggregates import Count
 from django.shortcuts import  render, redirect
 from requests.api import post
-from .forms import NewUserForm,MainForm,SearchForm
+from .forms import NewUserForm,MainForm,SearchForm,CommentForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
@@ -280,6 +280,29 @@ def profile(request):
 	return render(request,template_name='main/profile.html',context={'not_watched':not_watched,'watched':watched,})
 
 
+def post_detail(request):
+	it_id = request.GET.get('it_id')
+	post = get_object_or_404(Item, id=it_id)
+	comments = post.comments.all()
+	new_comment = None
+    # Comment posted
+	if request.method == 'POST':
+		comment_form = CommentForm(data=request.POST)
+    
+		if comment_form.is_valid():
 
-
+			new_comment = comment_form.save(commit=False)
+			itt_id = request.POST.get('itt_id')
+			post = get_object_or_404(Item,id=itt_id)
+			new_comment.post = post
+			new_comment.save()
+		
+	else:
+		comment_form = CommentForm()
+	template_name='main/post_detail.html'
+	
+	return render(request, template_name, {'post': post,
+                                           'comments': comments,
+                                           'new_comment': new_comment,
+                                           'comment_form': comment_form})
 

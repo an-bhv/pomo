@@ -17,7 +17,13 @@
 .navbar-collapse{
     justify-content: flex-end;
 }
-
+.navbar{
+background-color: rgba(26, 24, 22, 0.805); 
+}
+a{
+    color: white;
+    text-decoration: none;
+}
 
  </style> 
   
@@ -39,7 +45,7 @@
 
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+<nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'main:homepage' %}">PoMo</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,6 +128,7 @@
 
 
 
+{% include 'main/includes/messages.html' %}
 
 
 
@@ -130,7 +137,6 @@
 {% block body %}
 {% endblock %}
 
-{% include 'main/includes/messages.html' %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
