@@ -1,4 +1,4 @@
-.col{
+.coll{
 
 background-color: rgba(12, 11, 10, 0.705); 
 color: white;
@@ -16,4 +16,8 @@ background-color: rgba(26, 24, 22, 0.705);
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+}
+
+h1{
+    margin: 1em;
 }

@@ -156,7 +156,37 @@ def like_post(request):
 
 
 
+@login_required
+def delw(request):
+	user = Myuser.objects.filter(email=request.user.email)[0]
+	if request.method=='POST':
+		b = request.POST.get('delw')
 
+		i = user.watched.filter(id=b)[0]
+
+		user.watched.remove(i)
+
+		user.save()
+
+	
+	return redirect('main:profile')
+
+
+
+@login_required
+def deln(request):
+	user = Myuser.objects.filter(email=request.user.email)[0]
+	if request.method=='POST':
+		b = request.POST.get('deln')
+
+		i = user.item.filter(id=b)[0]
+
+		user.item.remove(i)
+
+		user.save()
+
+	
+	return redirect('main:profile')
 
 
 
@@ -224,9 +254,6 @@ def profile(request):
 		for i in not_watched:
 
 			b = request.POST.get(str(i.id))
-			print("--------------------")
-			print(b)
-			print("********************")
 			if b=='True':
 				user.item.remove(i)
 				user.watched.add(i)
@@ -235,9 +262,6 @@ def profile(request):
 
 		for j in watched:
 			b = request.POST.get(str(j.id))
-			print("--------------------")
-			print(b)
-			print("********************")
 
 			if b=='False':
 				user.watched.remove(j)

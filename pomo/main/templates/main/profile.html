@@ -16,7 +16,7 @@
 <div class="container">
     <div class="row">
 
-        <div class="col">
+        <div class="col coll">
 
            
  <h1>Not Watched</h1>
@@ -27,11 +27,27 @@
         <div class="card-body">
         <h5 class="card-title">{{i.title}}</h5>
         <p class="card-text">{{i.plot}}</p>
+
+
+        <div class="row">
+
+        <div class="col">
+
         <form method="POST">
             {% csrf_token %}
             <input type="hidden" name="{{i.id}}" value="True"> 
     <button class="btn btn-primary" type="submit">Watched</button>
         </form>
+
+        </div>
+        <div class="col">
+        <form method="POST" action="{% url 'main:deln' %}">
+            {% csrf_token %}
+            <input type="hidden" name="deln" value="{{i.id}}">
+    <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+        </div>
+        </div>
       </div>
 </div>
             
@@ -43,7 +59,7 @@
 
 
 
- <div class="col">
+ <div class="col coll">
 
            
  <h1>Watched</h1>
@@ -55,13 +71,34 @@
         <div class="card-body">
         <h5 class="card-title">{{i.title}}</h5>
         <p class="card-text">{{i.plot}}</p>
+
+
+
+        <div class="row">
+
+            <div class="col">
+
         <form method="POST">
             {% csrf_token %}
             <input type="hidden" name="{{i.id}}" value="False"> 
     <button class="btn btn-primary" type="submit">Not Watched</button>
         </form>
+        </div>
+
+        <div class="col">
+
+        <form method="POST" action="{% url 'main:delw' %}">
+            {% csrf_token %}
+            <input type="hidden" name="delw" value="{{i.id}}">
+    <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+
+        </div>
+        </div>
+
       </div>
 </div>
+
       
 
     {% endfor %}
@@ -83,36 +120,5 @@
 
 
 
-
-
-
-<ul>
-    <h1>Not Watched</h1>
-        <form method="POST">
-            {% csrf_token %}
-    <button class="btn btn-primary" type="submit">Submit</button>
-    {% for i in not_watched %}
-    
-        <li>
-            {{i.title}}
-        </li>
-            <input type="checkbox" name="{{i.id}}" value="True"> 
-            
-
-    
-    {% endfor %}
-    <button class="btn btn-primary" type="submit">Submit</button>
-        </form>
-</ul>
-
-<ul>
-    <h1>Watched</h1>
-    {% for i in watched %}
-    
-        <li>
-            {{i.title}}
-        </li>
-    {% endfor %}
-</ul>
 
 {% endblock %}
