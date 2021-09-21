@@ -1,3 +1,4 @@
+
 from django.db.models.aggregates import Count
 from django.shortcuts import  render, redirect
 from requests.api import post
@@ -20,13 +21,16 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 	
 	
 
 def homepage(request):
+
+	user = request.user
+
 	if request.method=="POST":
 		form = SearchForm(request.POST)
 		if form.is_valid():
@@ -45,11 +49,25 @@ def homepage(request):
 	
 
 	its = Item.objects.annotate(cnt = Count('liked')).order_by('-cnt') 
-	user = request.user
+
+
+	page = request.GET.get('page', 1)
+	
+	paginator = Paginator(its, 3)
+
+	try:
+		it = paginator.page(page)
+
+	except PageNotAnInteger:
+		it = paginator.page(1)
+
+	except EmptyPage:
+		it = paginator.page(paginator.num_pages)
+	
 
 
 	
-	return render(request=request, template_name='main/homepage.html',context={'form':form,'items':its,'user':user})
+	return render(request=request, template_name='main/homepage.html',context={'form':form,'items':its,'user':user,'it':it})
 
 def register_request(request):
 	if request.method == "POST":
@@ -167,6 +185,50 @@ def like_post(request):
 		like.save()
 
 	return redirect('main:homepage')
+
+
+
+
+@login_required
+def rating(request):
+	user = request.user
+	
+
+	if request.method=="POST":
+		rate = int(request.POST.get('rate'))
+		item_id = request.POST.get('item_id')
+		item_obj = Item.objects.get(id=item_id)
+
+		if user in item_obj.rating.all():
+
+			pass
+		else:
+			item_obj.rating.add(user)	
+
+		rating, created = Like.objects.get_or_create(user=user,item_id=item_id)
+		n = item_obj.rating.all().count()
+
+
+
+		if not created:
+			item_obj.sum += rate
+			rating.value = rate
+			sum = item_obj.sum
+			item_obj.rate = sum/n
+		
+
+		else:
+			rating.vale = rate
+			item_obj.sum += rate
+			sum = item_obj.sum
+			item_obj.rate = sum/n
+			
+
+		rating.save()
+		item_obj.save()
+	
+	return redirect('main:homepage')
+
 
 
 

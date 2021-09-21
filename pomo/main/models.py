@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.enums import Choices
 from django.db.models.lookups import IRegex
 from django.forms.models import ModelForm
 
@@ -22,8 +23,9 @@ class Item(models.Model):
     imdb_id = models.CharField(max_length=100,null=True)
 
     liked = models.ManyToManyField(User, default=None, blank=True,related_name='liked')
-
-
+    rating = models.ManyToManyField(User,default=None, blank=True, related_name='rating')
+    sum = models.IntegerField(default=0)
+    rate = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -54,7 +56,13 @@ class Like(models.Model):
 
 
 
+class Rating(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE, related_name='ratinguser')
+    item = models.ForeignKey(Item,on_delete=models.CASCADE,related_name='ratingitem')
+    value = models.IntegerField(default=0)
 
+    def __str__(self):
+        return str(self.item)
 
 
 
@@ -79,6 +87,7 @@ class Comment(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=False)
+    
 
     class Meta:
         ordering = ['created_on']

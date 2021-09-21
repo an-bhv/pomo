@@ -94,6 +94,29 @@
                           <strong>{{i.liked.all.count }} likes</strong>
                         </div>
 
+                        
+
+
+                         <div class="col">
+                          <form action="{% url 'main:rating' %}" method="POST">
+
+                            {% csrf_token %}
+
+
+                          <input type="text" name = "rate">
+                          
+                          <input type="hidden" name="item_id" value="{{i.id}}">
+
+
+                            <button class="btn btn-primary p-lg-2" type="submit"><i class="fa fa-heart" aria-hidden="true"></i></button>
+
+                          </form>
+
+                          <strong>Current rating {{ i.rate }} </strong>
+                        </div>
+
+
+
 
 
                         <div class="col">
@@ -131,10 +154,34 @@
       </div>
     </div>
   </div>
+
+
+
   {% endfor %}
 
 
 
+{% if it.has_other_pages %}
+  <ul class="pagination">
+    {% if it.has_previous %}
+      <li><a href="?page={{ it.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in it.paginator.page_range %}
+      {% if it.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if it.has_next %}
+      <li><a href="?page={{ it.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
 
 
 

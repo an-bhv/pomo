@@ -15,7 +15,9 @@ urlpatterns = [
     path("profile/",views.profile,name='profile'),
     path("delw/",views.delw,name='delw'),
     path("deln/",views.deln,name='deln'),
-    path('comments/', views.comments, name='comments')
+    path('comments/', views.comments, name='comments'),
+
+    path("rating/",views.rating,name='rating'),
 
 
 ]
