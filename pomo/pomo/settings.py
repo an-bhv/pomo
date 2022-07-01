@@ -20,8 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p6v9j%s#vuv_p&osdu-0f%x28v!o_q)k#z2zb2tfgs@_5m^62y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -138,13 +136,3 @@ MESSAGE_TAGS = {
         messages.WARNING: 'alert-warning',
         messages.ERROR: 'alert-danger',
  }
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'emailsenderforproject@gmail.com'
-EMAIL_HOST_PASSWORD = 'iknowyouseeit'
-
-LOGIN_URL = '/login'
